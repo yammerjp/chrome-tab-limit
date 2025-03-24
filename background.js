@@ -24,6 +24,16 @@ function updateTabsCount() {
 function handleTabCreated(tab) {
     if (tabsCount >= maxTabs) {
         chrome.tabs.remove(tab.id);
+        
+        // アクティブタブにステータスバーメッセージを表示
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            if (tabs.length > 0) {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    action: 'showStatusBarMessage',
+                    text: `タブ数が上限(${maxTabs}個)に達しました。新しいタブを開くには、既存のタブを閉じてください。`
+                });
+            }
+        });
     }
     else {
         updateTabsCount();
