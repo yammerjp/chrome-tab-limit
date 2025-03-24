@@ -6,7 +6,7 @@ function updateBadgeText() {
     var tabsBalance = maxTabs - tabsCount;
     var tabsAllowanceRemaining = (tabsBalance > 0) ? tabsBalance : 0;
 
-    chrome.browserAction.setBadgeText({
+    chrome.action.setBadgeText({
         text: "" + tabsAllowanceRemaining
     });
 }
@@ -51,15 +51,15 @@ function teardown() {
     chrome.tabs.onUpdated.removeListener(handleTabUpdated);
 }
 
-chrome.browserAction.onClicked.addListener(function (tab) {
+chrome.action.onClicked.addListener(function (tab) {
     if (!isEnabled) {
         init();
-        chrome.browserAction.setIcon({ path: "icons/19.png" });
+        chrome.action.setIcon({ path: "icons/19.png" });
     }
     else {
         teardown();
-        chrome.browserAction.setIcon({ path: "icons/19-disabled.png" });
-        chrome.browserAction.setBadgeText({ 'text': '' });
+        chrome.action.setIcon({ path: "icons/19-disabled.png" });
+        chrome.action.setBadgeText({ 'text': '' });
     }
 
     isEnabled = !isEnabled;
